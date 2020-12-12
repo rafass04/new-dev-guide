@@ -1,8 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using NewDevGuide.DTO.DTO;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -14,9 +15,50 @@ namespace NewDevGuide.Web.Controllers
     {
         // GET: api/<UsuarioController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IList<UsuarioDto> Get()
         {
-            return new string[] { "value1", "value2" };
+            var lista = new List<UsuarioDto>();
+
+            var rafa = new UsuarioDto();
+            rafa.Cpf = "00000000000";
+            rafa.DataNascimento = new DateTime(1998,10,16);
+            rafa.Email = "rafa@hotmail.com";
+            rafa.Nome = "Rafaela";
+
+            var rafaEndereco = new EnderecoDto();
+            rafaEndereco.Bairro = "";
+            rafaEndereco.Cep = "";
+            rafaEndereco.Cidade = "";
+            rafaEndereco.CodCidade = 0;
+            rafaEndereco.Complemento = "";
+            rafaEndereco.Estado = "";
+
+            rafa.Endereco = rafaEndereco;
+            rafa.EnderecoCobranca = rafaEndereco;
+
+            lista.Add(rafa);
+
+            var stefany = new UsuarioDto()
+            {
+                Cpf = "00000000000",
+                DataNascimento = new DateTime(2000, 10, 12),
+                Email = "stefany@hotmail.com",
+                Nome = "Stefany",
+                Endereco = new EnderecoDto()
+                {
+                    Bairro = "",
+                    Cep = "",
+                    Cidade = "",
+                    CodCidade = 0,
+                    Complemento = "",
+                    Estado = ""
+                }
+
+            };
+
+            lista.Add(stefany);
+
+            return lista;
         }
 
         // GET api/<UsuarioController>/5
@@ -28,7 +70,7 @@ namespace NewDevGuide.Web.Controllers
 
         // POST api/<UsuarioController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] UsuarioDto usuario)
         {
         }
 
