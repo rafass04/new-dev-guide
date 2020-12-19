@@ -6,16 +6,17 @@ using System.Text;
 
 namespace MewDevGuide.Data.DataBase
 {
-    public class ConexaoMongoDb
+    public class ConexaoMongoDb : IConexao, IDisposable
     {
         private MongoClient dbClient;
 
         private IMongoDatabase db;
 
-        public void Conectar(string dbName)
-        {   
-            dbClient = new MongoClient($"mongodb+srv://aplicacaocsharp:0Ro8pluyLDOw6lHI@cluster0.ug65e.mongodb.net/{dbName}?retryWrites=true&w=majority");
+        public IConexao Conectar(string dbName)
+        {
+            dbClient = new MongoClient(Environment.GetEnvironmentVariable("MONGODB_URL"));
             db = dbClient.GetDatabase(dbName);
+            return this;
         }
 
         public bool Inserir<T>(string colecao, T dados)
@@ -31,11 +32,12 @@ namespace MewDevGuide.Data.DataBase
             }
         }
 
-        public IList<T> Obter<T>(string colecao, dynamic filtro)
+        public IList<T> Obter<T>(string colecao, IDictionary<string, object> filtro)
         {
             try
             {
-                var lista = db.GetCollection<T>(colecao).Find(new BsonDocument()).ToList<T>();
+                var filtroDb = new BsonDocument().AddRange(filtro);
+                var lista = db.GetCollection<T>(colecao).Find(filtroDb).ToList<T>();
                 return lista;
             }
             catch (Exception)
@@ -48,7 +50,8 @@ namespace MewDevGuide.Data.DataBase
         {
             try
             {
-                var filtro = BsonDocument.Parse("{ _id: \"" + id + "\" }");
+                var objectId = ObjectId.Parse(id);
+                var filtro = new BsonDocument() { { "_id", objectId } };
                 db.GetCollection<T>(colecao).ReplaceOne(filtro, dados);
                 return true;
             }
@@ -62,7 +65,8 @@ namespace MewDevGuide.Data.DataBase
         {
             try
             {
-                var filtro = BsonDocument.Parse("{ _id: \"" + id + "\" }");
+                var objectId = ObjectId.Parse(id);
+                var filtro = new BsonDocument() { { "_id", objectId } };
                 db.GetCollection<T>(colecao).DeleteOne(filtro);
                 return true;
             }
@@ -71,5 +75,12 @@ namespace MewDevGuide.Data.DataBase
                 return false;
             }
         }
+
+        public void Dispose()
+        {
+            //No Mongo não é necessario desconectar
+        }
+
+
     }
 }

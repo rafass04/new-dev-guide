@@ -5,7 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MongoDB.Bson" Version="2.11.5" />
+    <ProjectReference Include="..\MewDevGuide.Data\NewDevGuide.Data.csproj" />
+    <ProjectReference Include="..\NewDevGuide.DTO\NewDevGuide.DTO.csproj" />
   </ItemGroup>
 
 </Project>
