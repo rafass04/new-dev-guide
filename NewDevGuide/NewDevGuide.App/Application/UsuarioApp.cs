@@ -14,7 +14,31 @@ namespace NewDevGuide.App.Application
             using (var conexao = new ConexaoMongoDb().Conectar("Newdevguidedb"))
             {
                 return new UsuarioData().Criar(usuario, conexao);
-            } 
+            }
+        }
+
+        public UsuarioDto Obter(string id)
+        {
+            using (var conexao = new ConexaoMongoDb().Conectar("Newdevguidedb"))
+            {
+                return new UsuarioData().Obter(id, conexao);
+            }
+        }
+
+        public UsuarioDto Atualizar(string id, UsuarioDto usuario)
+        {
+            using (var conexao = new ConexaoMongoDb().Conectar("Newdevguidedb"))
+            {
+                return new UsuarioData().Atualizar(id, usuario, conexao);
+            }
+        }
+
+        public void Deletar(string id)
+        {
+            using (var conexao = new ConexaoMongoDb().Conectar("Newdevguidedb"))
+            {
+                new UsuarioData().Deletar(id, conexao);
+            }
         }
     }
 }

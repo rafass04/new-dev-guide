@@ -1,4 +1,5 @@
 ﻿using MewDevGuide.Data.DataBase;
+using MongoDB.Bson;
 using NewDevGuide.DTO.DTO;
 using System;
 using System.Collections.Generic;
@@ -11,21 +12,21 @@ namespace NewDevGuide.Data.Data
     {
         public UsuarioDto Criar(UsuarioDto usuario, IConexao conexaobd)
         {
-            conexaobd.Inserir<UsuarioDto>("usuario", usuario);
-            return usuario;
+            var usuarioNovo = conexaobd.Inserir<UsuarioDto>("usuario", usuario);
+            return usuarioNovo;
         }
 
         public UsuarioDto Obter(string id, IConexao conexaobd)
         {
             var dic = new Dictionary<string, object>
             {
-                {"_id", id }
+                {"_id", ObjectId.Parse(id) }
             };
             var lista = conexaobd.Obter<UsuarioDto>("usuario", dic);
             return lista.FirstOrDefault();
         }
 
-        public UsuarioDto Atulizar(string id, UsuarioDto usuario, IConexao conexaobd)
+        public UsuarioDto Atualizar(string id, UsuarioDto usuario, IConexao conexaobd)
         {
             conexaobd.Atualizar<UsuarioDto>("usuario", usuario, id);
             return usuario;

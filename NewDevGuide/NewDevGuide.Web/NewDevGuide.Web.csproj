@@ -4,7 +4,19 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netcoreapp3.1\NewDevGuide.Web.xml</DocumentationFile>
+    <OutputPath>bin\Debug\netcoreapp3.1</OutputPath>
+  </PropertyGroup>
+
   <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.6.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="5.6.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NewDevGuide.App\NewDevGuide.App.csproj" />
     <ProjectReference Include="..\NewDevGuide.DTO\NewDevGuide.DTO.csproj" />
   </ItemGroup>
 

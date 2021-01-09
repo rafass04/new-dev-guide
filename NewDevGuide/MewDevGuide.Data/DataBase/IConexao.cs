@@ -7,7 +7,7 @@ namespace MewDevGuide.Data.DataBase
     public interface IConexao : IDisposable
     {
         IConexao Conectar(string dbName);
-        bool Inserir<T>(string colecao, T dados);
+        T Inserir<T>(string colecao, T dados);
         IList<T> Obter<T>(string colecao, IDictionary<string, object> filtro);
         bool Atualizar<T>(string colecao, T dados, string id);
         bool Deletar<T>(string colecao, string id);

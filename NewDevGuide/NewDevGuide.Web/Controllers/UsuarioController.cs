@@ -3,6 +3,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
+    using NewDevGuide.App.Application;
     using NewDevGuide.DTO.DTO;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -13,6 +14,12 @@ namespace NewDevGuide.Web.Controllers
     [ApiController]
     public class UsuarioController : ControllerBase
     {
+        private UsuarioApp _Instance { get; set; }
+        public UsuarioController()
+        {
+            _Instance = new UsuarioApp();
+        }
+
         // GET: api/<UsuarioController>
         [HttpGet]
         public IList<UsuarioDto> Get()
@@ -61,29 +68,66 @@ namespace NewDevGuide.Web.Controllers
             return lista;
         }
 
+        /// <summary>
+        /// Obtém dados de usuario especifico
+        /// </summary>
+        /// <param name="id">Informar o id do banco do usuario</param>
+        /// <returns>Informação do usuario consultado</returns>
+        /// <returns code="500">Mensagem de erro ao consultar o usuario</returns>
         // GET api/<UsuarioController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        [Produces("application/json")]
+        public UsuarioDto Get(string id)
         {
-            return "value";
+            return _Instance.Obter(id);
         }
-
+        
         // POST api/<UsuarioController>
         [HttpPost]
-        public void Post([FromBody] UsuarioDto usuario)
+        public ActionResult<ResultadoDto<UsuarioDto>> Post([FromBody] UsuarioDto usuario)
         {
+            try
+            {
+                var resultado = _Instance.Criar(usuario);
+                var erro = new ErroDto()
+                {
+                    Codigo = "erro",
+                    Mensagem = "Erro ao inserir usuário"
+                };
+
+                return new ResultadoDto<UsuarioDto>()
+                { 
+                    Ok = resultado != null,
+                    Dados = resultado,
+                    Erro = resultado == null ? erro : null
+                };
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new ResultadoDto<UsuarioDto>()
+                {
+                    Ok = false,
+                    Erro = new ErroDto()
+                    {
+                        Codigo = "Interno",
+                        Mensagem = ex.Message
+                    }
+                });
+            }
         }
 
         // PUT api/<UsuarioController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public UsuarioDto Put(string id, [FromBody] UsuarioDto usuario)
         {
+            return _Instance.Atualizar(id, usuario);
         }
 
         // DELETE api/<UsuarioController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public void Delete(string id)
         {
+            _Instance.Deletar(id);
         }
     }
 }

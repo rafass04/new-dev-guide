@@ -19,16 +19,16 @@ namespace MewDevGuide.Data.DataBase
             return this;
         }
 
-        public bool Inserir<T>(string colecao, T dados)
+        public T Inserir<T>(string colecao, T dados)
         {
             try
             {
                 db.GetCollection<T>(colecao).InsertOne(dados);
-                return true;
+                return dados;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return false;
+                return default(T);
             }
         }
 
