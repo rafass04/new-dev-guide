@@ -25,6 +25,12 @@ namespace NewDevGuide.Data.Data
             var lista = conexaobd.Obter<UsuarioDto>("usuario", dic);
             return lista.FirstOrDefault();
         }
+        public IList<UsuarioDto> ObterLista(IConexao conexaobd)
+        {
+            var dic = new Dictionary<string, object>{};
+            var lista = conexaobd.Obter<UsuarioDto>("usuario", dic);
+            return lista;
+        }
 
         public UsuarioDto Atualizar(string id, UsuarioDto usuario, IConexao conexaobd)
         {

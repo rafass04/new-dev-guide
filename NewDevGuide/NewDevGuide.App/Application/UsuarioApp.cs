@@ -25,6 +25,14 @@ namespace NewDevGuide.App.Application
             }
         }
 
+        public IList<UsuarioDto> ObterLista()
+        {
+            using (var conexao = new ConexaoMongoDb().Conectar("Newdevguidedb"))
+            {
+                return new UsuarioData().ObterLista(conexao);
+            }
+        }
+
         public UsuarioDto Atualizar(string id, UsuarioDto usuario)
         {
             using (var conexao = new ConexaoMongoDb().Conectar("Newdevguidedb"))

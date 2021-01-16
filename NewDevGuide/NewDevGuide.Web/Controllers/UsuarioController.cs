@@ -22,50 +22,36 @@ namespace NewDevGuide.Web.Controllers
 
         // GET: api/<UsuarioController>
         [HttpGet]
-        public IList<UsuarioDto> Get()
+        public ActionResult<ResultadoDto<IList<UsuarioDto>>> Get()
         {
-            var lista = new List<UsuarioDto>();
-
-            var rafa = new UsuarioDto();
-            rafa.Cpf = "00000000000";
-            rafa.DataNascimento = new DateTime(1998,10,16);
-            rafa.Email = "rafa@hotmail.com";
-            rafa.Nome = "Rafaela";
-
-            var rafaEndereco = new EnderecoDto();
-            rafaEndereco.Bairro = "";
-            rafaEndereco.Cep = "";
-            rafaEndereco.Cidade = "";
-            rafaEndereco.CodCidade = 0;
-            rafaEndereco.Complemento = "";
-            rafaEndereco.Estado = "";
-
-            rafa.Endereco = rafaEndereco;
-            rafa.EnderecoCobranca = rafaEndereco;
-
-            lista.Add(rafa);
-
-            var stefany = new UsuarioDto()
+            try
             {
-                Cpf = "00000000000",
-                DataNascimento = new DateTime(2000, 10, 12),
-                Email = "stefany@hotmail.com",
-                Nome = "Stefany",
-                Endereco = new EnderecoDto()
+                var resultado = _Instance.ObterLista();
+                var erro = new ErroDto()
                 {
-                    Bairro = "",
-                    Cep = "",
-                    Cidade = "",
-                    CodCidade = 0,
-                    Complemento = "",
-                    Estado = ""
-                }
+                    Codigo = "erro",
+                    Mensagem = "Erro ao obter lista de usuários"
+                };
 
-            };
-
-            lista.Add(stefany);
-
-            return lista;
+                return new ResultadoDto<IList<UsuarioDto>>()
+                {
+                    Ok = resultado != null,
+                    Dados = resultado,
+                    Erro = resultado == null ? erro : null
+                };
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new ResultadoDto<UsuarioDto>()
+                {
+                    Ok = false,
+                    Erro = new ErroDto()
+                    {
+                        Codigo = "Interno",
+                        Mensagem = ex.Message
+                    }
+                });
+            }
         }
 
         /// <summary>
@@ -77,9 +63,36 @@ namespace NewDevGuide.Web.Controllers
         // GET api/<UsuarioController>/5
         [HttpGet("{id}")]
         [Produces("application/json")]
-        public UsuarioDto Get(string id)
+        public ActionResult<ResultadoDto<UsuarioDto>> Get(string id)
         {
-            return _Instance.Obter(id);
+            try
+            {
+                var resultado = _Instance.Obter(id);
+                var erro = new ErroDto()
+                {
+                    Codigo = "erro",
+                    Mensagem = "Erro ao obter usuários"
+                };
+
+                return new ResultadoDto<UsuarioDto>()
+                {
+                    Ok = resultado != null,
+                    Dados = resultado,
+                    Erro = resultado == null ? erro : null
+                };
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new ResultadoDto<UsuarioDto>()
+                {
+                    Ok = false,
+                    Erro = new ErroDto()
+                    {
+                        Codigo = "Interno",
+                        Mensagem = ex.Message
+                    }
+                });
+            }
         }
         
         // POST api/<UsuarioController>
@@ -92,7 +105,7 @@ namespace NewDevGuide.Web.Controllers
                 var erro = new ErroDto()
                 {
                     Codigo = "erro",
-                    Mensagem = "Erro ao inserir usuário"
+                    Mensagem = "Erro ao criar usuário"
                 };
 
                 return new ResultadoDto<UsuarioDto>()
@@ -118,16 +131,70 @@ namespace NewDevGuide.Web.Controllers
 
         // PUT api/<UsuarioController>/5
         [HttpPut("{id}")]
-        public UsuarioDto Put(string id, [FromBody] UsuarioDto usuario)
+        public ActionResult<ResultadoDto<UsuarioDto>> Put(string id, [FromBody] UsuarioDto usuario)
         {
-            return _Instance.Atualizar(id, usuario);
+            try
+            {
+                var resultado = _Instance.Atualizar(id, usuario);
+                var erro = new ErroDto()
+                {
+                    Codigo = "erro",
+                    Mensagem = "Erro ao atualizar usuário"
+                };
+
+                return new ResultadoDto<UsuarioDto>()
+                {
+                    Ok = resultado != null,
+                    Dados = resultado,
+                    Erro = resultado == null ? erro : null
+                };
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new ResultadoDto<UsuarioDto>()
+                {
+                    Ok = false,
+                    Erro = new ErroDto()
+                    {
+                        Codigo = "Interno",
+                        Mensagem = ex.Message
+                    }
+                });
+            }
         }
 
         // DELETE api/<UsuarioController>/5
         [HttpDelete("{id}")]
-        public void Delete(string id)
+        public ActionResult<ResultadoDto<UsuarioDto>> Delete(string id)
         {
-            _Instance.Deletar(id);
+            try
+            {
+                _Instance.Deletar(id);
+                var erro = new ErroDto()
+                {
+                    Codigo = "erro",
+                    Mensagem = "Erro ao deletar usuário"
+                };
+
+                return new ResultadoDto<UsuarioDto>()
+                {
+                    Ok = true,
+                    Dados = null,
+                    Erro = null
+                };
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new ResultadoDto<UsuarioDto>()
+                {
+                    Ok = false,
+                    Erro = new ErroDto()
+                    {
+                        Codigo = "Interno",
+                        Mensagem = ex.Message
+                    }
+                });
+            }
         }
     }
 }
