@@ -1,10 +1,10 @@
-﻿    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Mvc;
-    using NewDevGuide.App.Application;
-    using NewDevGuide.DTO.DTO;
+﻿using MewDevGuide.Data.DataBase;
+using Microsoft.AspNetCore.Mvc;
+using NewDevGuide.App.Application;
+using NewDevGuide.Web.Services;
+using NewDevGuide.DTO.DTO;
+using System;
+using System.Collections.Generic;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -22,11 +22,11 @@ namespace NewDevGuide.Web.Controllers
 
         // GET: api/<UsuarioController>
         [HttpGet]
-        public ActionResult<ResultadoDto<IList<UsuarioDto>>> Get()
+        public ActionResult<ResultadoDto<IList<UsuarioDto>>> Get([FromServices]IDataBaseService db)
         {
             try
             {
-                var resultado = _Instance.ObterLista();
+                var resultado = _Instance.ObterLista(db.GetConexao());
                 var erro = new ErroDto()
                 {
                     Codigo = "erro",
@@ -63,11 +63,11 @@ namespace NewDevGuide.Web.Controllers
         // GET api/<UsuarioController>/5
         [HttpGet("{id}")]
         [Produces("application/json")]
-        public ActionResult<ResultadoDto<UsuarioDto>> Get(string id)
+        public ActionResult<ResultadoDto<UsuarioDto>> Get(string id, [FromServices] IDataBaseService db)
         {
             try
             {
-                var resultado = _Instance.Obter(id);
+                var resultado = _Instance.Obter(id, db.GetConexao());
                 var erro = new ErroDto()
                 {
                     Codigo = "erro",
@@ -97,11 +97,11 @@ namespace NewDevGuide.Web.Controllers
         
         // POST api/<UsuarioController>
         [HttpPost]
-        public ActionResult<ResultadoDto<UsuarioDto>> Post([FromBody] UsuarioDto usuario)
+        public ActionResult<ResultadoDto<UsuarioDto>> Post([FromBody] UsuarioDto usuario, [FromServices] IDataBaseService db)
         {
             try
             {
-                var resultado = _Instance.Criar(usuario);
+                var resultado = _Instance.Criar(usuario, db.GetConexao());
                 var erro = new ErroDto()
                 {
                     Codigo = "erro",
@@ -131,11 +131,11 @@ namespace NewDevGuide.Web.Controllers
 
         // PUT api/<UsuarioController>/5
         [HttpPut("{id}")]
-        public ActionResult<ResultadoDto<UsuarioDto>> Put(string id, [FromBody] UsuarioDto usuario)
+        public ActionResult<ResultadoDto<UsuarioDto>> Put(string id, [FromBody] UsuarioDto usuario, [FromServices] IDataBaseService db)
         {
             try
             {
-                var resultado = _Instance.Atualizar(id, usuario);
+                var resultado = _Instance.Atualizar(id, usuario, db.GetConexao());
                 var erro = new ErroDto()
                 {
                     Codigo = "erro",
@@ -165,11 +165,11 @@ namespace NewDevGuide.Web.Controllers
 
         // DELETE api/<UsuarioController>/5
         [HttpDelete("{id}")]
-        public ActionResult<ResultadoDto<UsuarioDto>> Delete(string id)
+        public ActionResult<ResultadoDto<UsuarioDto>> Delete(string id, [FromServices] IDataBaseService db)
         {
             try
             {
-                _Instance.Deletar(id);
+                _Instance.Deletar(id, db.GetConexao());
                 var erro = new ErroDto()
                 {
                     Codigo = "erro",

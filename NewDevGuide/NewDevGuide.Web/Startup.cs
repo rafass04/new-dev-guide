@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using NewDevGuide.Web.Services;
 
 namespace NewDevGuide.Web
 {
@@ -35,6 +36,7 @@ namespace NewDevGuide.Web
                 c.IncludeXmlComments(xmlPath);
             });
             services.AddControllers();
+            services.AddSingleton<IDataBaseService, MongoDbService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

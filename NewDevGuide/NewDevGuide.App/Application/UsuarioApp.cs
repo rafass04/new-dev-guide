@@ -9,44 +9,33 @@ namespace NewDevGuide.App.Application
 {
     public class UsuarioApp
     {
-        public UsuarioDto Criar(UsuarioDto usuario)
+        public UsuarioDto Criar(UsuarioDto usuario, IConexao conexao)
         {
-            using (var conexao = new ConexaoMongoDb().Conectar("Newdevguidedb"))
+            if (usuario.EnderecoCobranca == null)
             {
-                return new UsuarioData().Criar(usuario, conexao);
+                usuario.EnderecoCobranca = usuario.Endereco;
             }
+            return new UsuarioData().Criar(usuario, conexao);
         }
 
-        public UsuarioDto Obter(string id)
+        public UsuarioDto Obter(string id, IConexao conexao)
         {
-            using (var conexao = new ConexaoMongoDb().Conectar("Newdevguidedb"))
-            {
-                return new UsuarioData().Obter(id, conexao);
-            }
+            return new UsuarioData().Obter(id, conexao);
         }
 
-        public IList<UsuarioDto> ObterLista()
+        public IList<UsuarioDto> ObterLista(IConexao conexao)
         {
-            using (var conexao = new ConexaoMongoDb().Conectar("Newdevguidedb"))
-            {
-                return new UsuarioData().ObterLista(conexao);
-            }
+            return new UsuarioData().ObterLista(conexao);
         }
 
-        public UsuarioDto Atualizar(string id, UsuarioDto usuario)
+        public UsuarioDto Atualizar(string id, UsuarioDto usuario, IConexao conexao)
         {
-            using (var conexao = new ConexaoMongoDb().Conectar("Newdevguidedb"))
-            {
-                return new UsuarioData().Atualizar(id, usuario, conexao);
-            }
+            return new UsuarioData().Atualizar(id, usuario, conexao);
         }
 
-        public void Deletar(string id)
+        public void Deletar(string id, IConexao conexao)
         {
-            using (var conexao = new ConexaoMongoDb().Conectar("Newdevguidedb"))
-            {
-                new UsuarioData().Deletar(id, conexao);
-            }
+            new UsuarioData().Deletar(id, conexao);
         }
     }
 }

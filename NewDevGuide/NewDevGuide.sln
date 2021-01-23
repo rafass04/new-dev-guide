@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewDevGuide.DTO", "NewDevGu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewDevGuide.Data", "MewDevGuide.Data\NewDevGuide.Data.csproj", "{C987C865-927D-4BBB-9CB7-D9C3FB9289B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewDevGuide.App", "NewDevGuide.App\NewDevGuide.App.csproj", "{6B8D29C0-BAB6-4C6E-9807-1BB67527EBF4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewDevGuide.App", "NewDevGuide.App\NewDevGuide.App.csproj", "{6B8D29C0-BAB6-4C6E-9807-1BB67527EBF4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewDevGuide.Test", "NewDevGuide.Test\NewDevGuide.Test.csproj", "{58E3C6EE-6548-4751-8AD3-C34598BBCC09}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{6B8D29C0-BAB6-4C6E-9807-1BB67527EBF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B8D29C0-BAB6-4C6E-9807-1BB67527EBF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B8D29C0-BAB6-4C6E-9807-1BB67527EBF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58E3C6EE-6548-4751-8AD3-C34598BBCC09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58E3C6EE-6548-4751-8AD3-C34598BBCC09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58E3C6EE-6548-4751-8AD3-C34598BBCC09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58E3C6EE-6548-4751-8AD3-C34598BBCC09}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
