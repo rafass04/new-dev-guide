@@ -4,6 +4,11 @@ using System.Text;
 
 namespace MewDevGuide.Data.DataBase
 {
+    public interface IBaseDoc
+    {
+        public string Id { get; set; }
+    }
+
     public interface IConexao : IDisposable
     {
         IConexao Conectar(string dbName);

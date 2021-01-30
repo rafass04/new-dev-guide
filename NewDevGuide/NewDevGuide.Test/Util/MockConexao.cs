@@ -7,27 +7,42 @@ using System.Text;
 
 namespace NewDevGuide.Test.Util
 {
-    public class MockConexao : IConexao
+    public class MockConexao<T> : IConexao
     {
         private IList< KeyValuePair<string, IList<object>>> collections = new List<KeyValuePair<string, IList<object>>>();
         public bool Atualizar<T>(string colecao, T dados, string id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var coll = GetCollections(colecao);
+                var doc = coll.Value.FirstOrDefault(v => v.GetType().GetProperty("Id").GetValue(v).Equals(id));
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public IConexao Conectar(string dbName)
         {
-            throw new NotImplementedException();
+            return this;
         }
 
         public bool Deletar<T>(string colecao, string id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
         }
 
         public T Inserir<T>(string colecao, T dados)

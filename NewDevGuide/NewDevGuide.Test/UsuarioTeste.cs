@@ -1,5 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NewDevGuide.App.Application;
+using NewDevGuide.Test.Util;
 
 namespace NewDevGuide.Test
 {
@@ -8,7 +9,8 @@ namespace NewDevGuide.Test
     {
         [TestMethod]
         public void CriarUsuariosSemEnderecoDeCobranca()
-        {
+        {   
+            var conexao = new MockConexao<DTO.DTO.UsuarioDto>();
             var instancia = new UsuarioApp();
             var usuario = instancia.Criar(new DTO.DTO.UsuarioDto()
             {
@@ -21,7 +23,13 @@ namespace NewDevGuide.Test
                     Logradouro = "Rua Teste",
                     Numero = 12
                 }
-            });
+            }, conexao);
+
+            var usuarioCriado = instancia.Obter(usuario.Id, conexao);
+            Assert.AreEqual(usuario.Endereco.Bairro, usuarioCriado.EnderecoCobranca.Bairro);
+            Assert.AreEqual(usuario.Endereco.Cidade, usuarioCriado.EnderecoCobranca.Cidade);
+            Assert.AreEqual(usuario.Endereco.Logradouro, usuarioCriado.EnderecoCobranca.Logradouro);
+            Assert.AreEqual(usuario.Endereco.Numero, usuarioCriado.EnderecoCobranca.Numero);
         }
     }
 }
